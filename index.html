@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Input</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function App() {
+      const [color, setColor] = React.useState('');
+      const [error, setError] = React.useState('');
+        console.log(color);
+        
+      // Regular expression to validate HEX color codes
+      const isValidHex = (hex) => /^#[0-9A-Fa-f]{6}$/.test(hex);
+
+      const handleChange = (e) => {
+        const newColor = e.target.value;
+        setColor(newColor);
+        
+        if (newColor === '' || isValidHex(newColor)) {
+          setError('');
+        } else {
+          setError('Invalid HEX color code');
+        }
+      };
+
+      return (
+        <div style={{ textAlign: 'center', padding: '20px' }}>
+          <input
+            type="text"
+            value={color}
+            onChange={handleChange}
+            placeholder="#FFFFFF"
+            style={{ fontSize: '18px', padding: '10px'}}
+          />
+          <div
+            style={{
+              marginTop: '20px',
+              width: '100px',
+              height: '100px',
+              backgroundColor: isValidHex(color) ? color : '#FFFFFF',
+              border: '1px solid #000',
+            }}
+          ></div>
+          {error && (
+            <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</html>
